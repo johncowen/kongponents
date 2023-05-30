@@ -1,30 +1,42 @@
 <template>
   <div class="k-tabs">
-    <ul
-      aria-label="Tabs"
-      role="tablist"
+    <template
+      v-if="slots.default"
     >
-      <li
-        v-for="(tab, i) in tabs"
-        :id="`${tab.hash.replace('#','')}-tab`"
-        :key="tab.hash"
-        :aria-controls="`panel-${i}`"
-        :aria-selected="activeTab === tab.hash ? 'true' : 'false'"
-        class="tab-item"
-        :class="{ active: activeTab === tab.hash }"
-        role="tab"
-        tabindex="0"
-        @click="handleTabChange(tab.hash)"
-        @keydown.enter.prevent="handleTabChange(tab.hash)"
-        @keydown.space.prevent="handleTabChange(tab.hash)"
+      <ul
+        v-bind="$attrs"
       >
-        <div class="tab-link">
+        <slot
+          name="default"
+        />
+      </ul>
+    </template>
+    <template
+      v-else
+    >
+      <ul
+        aria-label="Tabs"
+        role="tablist"
+      >
+        <KTabButton
+          v-for="(tab, i) in tabs"
+          :key="tab.hash"
+          :aria-controls="`panel-${i}`"
+          :aria-selected="activeTab === tab.hash ? 'true' : 'false'"
+          class="tab-item"
+          :class="{ active: activeTab === tab.hash }"
+          role="tab"
+          tabindex="0"
+          @click="handleTabChange(tab.hash)"
+          @keydown.enter.prevent="handleTabChange(tab.hash)"
+          @keydown.space.prevent="handleTabChange(tab.hash)"
+        >
           <slot :name="`${tab.hash.replace('#','')}-anchor`">
             {{ tab.title }}
           </slot>
-        </div>
-      </li>
-    </ul>
+        </KTabButton>
+      </ul>
+    </template>
 
     <div
       v-for="(tab, i) in tabs"
@@ -44,8 +56,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, PropType } from 'vue'
+import { ref, watch, PropType, useSlots } from 'vue'
+import KTabButton from '../KTabButton/KTabButton.vue'
 import type { Tab } from '@/types'
+const slots = useSlots()
 
 const props = defineProps({
   /**
@@ -53,7 +67,8 @@ const props = defineProps({
      */
   tabs: {
     type: Array as PropType<Tab[]>,
-    required: true,
+    required: false,
+    default: () => [],
   },
   /**
      * A set tab hash to use as default
@@ -70,7 +85,7 @@ const emit = defineEmits<{
   (e: 'changed', val: string): void
 }>()
 
-const activeTab = ref(props.modelValue ? props.modelValue : props.tabs[0].hash)
+const activeTab = ref(props.modelValue ? props.modelValue : props.tabs[0]?.hash)
 
 const handleTabChange = (tab: string): void => {
   activeTab.value = tab
@@ -99,39 +114,6 @@ watch(() => props.modelValue, (newTabHash) => {
     margin-bottom: 0;
     padding-left: 0;
 
-    .tab-item {
-      cursor: pointer;
-      padding: var(--spacing-md, spacing(md));
-      position: relative;
-
-      &:not(:first-of-type) { margin-left: var(--spacing-xs, spacing(xs)); }
-
-      &:not(:last-of-type) { margin-right: var(--spacing-xs, spacing(xs)); }
-
-      &:after {
-        bottom: -2px;
-        content: '';
-        display: block;
-        height: 2px;
-        left: 0;
-        position: absolute;
-        width: 100%;
-      }
-
-      &.active,
-      &:hover {
-        border-bottom: 4px solid var(--KTabBottomBorderColor, var(--teal-300, color(teal-300)));
-        .tab-link { color: var(--KTabsActiveColor, var(--black-500, color(black-500))); }
-      }
-    }
-
-    .tab-link {
-      color: var(--KTabsColor, var(--black-45, color(black-45)));
-      &:hover {
-        border: none;
-        text-decoration: none;
-      }
-    }
   }
 }
 </style>

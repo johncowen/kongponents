@@ -28,10 +28,12 @@ defineEmits(['router-link-click'])
 
 const links = computed((): SandboxNavItem[] => (
   [
+    { name: 'KAction', to: { name: 'action' } },
     { name: 'KAlert', to: { name: 'alert' } },
     { name: 'KButton', to: { name: 'button' } },
     { name: 'KCatalog', to: { name: 'catalog' } },
     { name: 'KTable', to: { name: 'table' } },
+    { name: 'KTabs', to: { name: 'tabs' } },
     { name: 'Multiselect', to: { name: 'multiselect' } },
   ]
 ))

@@ -8,6 +8,7 @@ export { default as Komponent } from './KComponent' // Komponent alias (backward
 export { default as KToggle } from './KToggle'
 
 // Regular Kongponents (ensure you import from '*.vue` unless the component is "special" with an index.ts file, etc.)
+export { default as KAction } from './KAction/KAction.vue'
 export { default as KAlert } from './KAlert/KAlert.vue'
 export { default as KBadge } from './KBadge/KBadge.vue'
 export { default as KBreadcrumbs } from './KBreadcrumbs/KBreadcrumbs.vue'
@@ -55,3 +56,4 @@ export { default as KTreeList } from './KTreeList/KTreeList.vue'
 export { default as KViewSwitcher } from './KViewSwitcher/KViewSwitcher.vue'
 export { default as KExternalLink } from './KExternalLink/KExternalLink.vue'
 export { default as KTruncate } from './KTruncate/KTruncate.vue'
+export { default as KTabButton } from './KTabButton/KTabButton.vue'

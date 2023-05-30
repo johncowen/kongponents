@@ -10,6 +10,12 @@ export default createRouter({
       component: () => import('./pages/HomePage.vue'),
       children: [
         {
+          path: 'action',
+          name: 'action',
+          meta: { title: 'Action Sandbox' },
+          component: () => import('./pages/SandboxAction.vue'),
+        },
+        {
           path: 'alert',
           name: 'alert',
           meta: { title: 'Alert Sandbox' },
@@ -32,6 +38,12 @@ export default createRouter({
           name: 'table',
           meta: { title: 'Table Sandbox' },
           component: () => import('./pages/SandboxTable.vue'),
+        },
+        {
+          path: 'tabs',
+          name: 'tabs',
+          meta: { title: 'Tabs Sandbox' },
+          component: () => import('./pages/SandboxTabs.vue'),
         },
         {
           path: 'multiselect',
